@@ -25,9 +25,17 @@ class Libro(models.Model):
         return self.titulo
 
 class Resena(models.Model):
-    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='resenas')
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='resenas_resena')
     texto = models.TextField()
     calificacion = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     fecha = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f"{self.libro.titulo} - {self.calificacion}/5"
+
+class Review(models.Model):
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='resenas_review')
+    texto = models.TextField()
+    rating = models.FloatField(
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
+    )
+    fecha = models.DateTimeField(auto_now_add=True)
